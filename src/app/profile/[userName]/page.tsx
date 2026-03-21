@@ -1,41 +1,17 @@
-import React from 'react'
-import ProfileHeader from '../ProfileHeader'
-import InfinitePosts from 'components/post/InfinitePosts'
-import Error from 'components/UI/Error'
-import { api_Url } from 'utils/consts'
-import { UserList } from 'types'
-import { useUser } from 'utils/useUser'
-type PageProps = {
-  params: {
-    userName: string
-  }
-  children?: React.ReactNode
-}
+"use client";
+import React from 'react';
 
-async function page({ params }: PageProps) {
-  const { userName } = params
-  const profile = (await fetch(
-    `${api_Url}collections/users/records?filter=(username='${userName}')`,
-  ).then((res) => res.json())) as UserList
-
-  const user = profile.items[0] || null
-
-  if (!user) {
-    return <Error message="User is not found" />
-  }
-
-  const posts = await fetch(
-    `${api_Url}collections/posts/records?page=1&perPage=1&filter=(profile='${user.id}')`,
-  ).then((res) => res.json())
-
-  const currentUser = useUser()
-
+export default function ProfilePage() {
   return (
-    <div className="container">
-      <ProfileHeader id={user.id} user={user} totalPosts={posts.totalItems} />
-      <InfinitePosts userId={user.id} />
+    <div className="min-h-screen bg-black text-white p-10 flex flex-col items-center">
+      <div className="w-24 h-24 bg-cyan-500 rounded-full mb-4 shadow-[0_0_20px_#00e5ff]"></div>
+      <h1 className="text-2xl font-bold">Michel Detilli</h1>
+      <p className="text-zinc-500 text-sm">@oio_one_autor</p>
+      <div className="mt-10 grid grid-cols-3 gap-1 w-full max-w-md">
+        <div className="aspect-square bg-zinc-900 border border-zinc-800"></div>
+        <div className="aspect-square bg-zinc-900 border border-zinc-800"></div>
+        <div className="aspect-square bg-zinc-900 border border-zinc-800"></div>
+      </div>
     </div>
-  )
+  );
 }
-
-export default page

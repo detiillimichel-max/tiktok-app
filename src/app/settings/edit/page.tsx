@@ -1,21 +1,11 @@
-import React from 'react'
-import EditProfileForm from 'components/profile/EditProfileForm'
-import { getUSerData, useUserProtected } from 'utils/useUser'
-import { BackButton } from 'components/UI'
-async function page() {
-  const user = useUserProtected()
-  const userData = await getUSerData()
-  return (
-    <div className=" mx-auto max-w-[480px] ">
-      <div className="flex gap-4 items-center">
-        <BackButton />
-        <h1 className="my-8 text-lg font-semibold text-gray-700">
-          Edit Profile
-        </h1>
-      </div>
-      <EditProfileForm user={userData} />
-    </div>
-  )
-}
+"use client";
+import React from 'react';
 
-export default page
+export default function EditSettingsPage() {
+  return (
+    <div className="min-h-screen bg-black text-white p-6">
+      <h1 className="text-2xl font-bold text-cyan-400">Configurações</h1>
+      <p className="mt-4 text-zinc-400 font-mono italic">Motor OIO ONE - Edição de perfil em breve...</p>
+    </div>
+  );
+}

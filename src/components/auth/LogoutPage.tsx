@@ -1,36 +1,13 @@
-'use client'
-import { useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
-import { pb } from 'utils/pocketbase'
-import { useSWRConfig } from 'swr'
-import { logout } from 'utils/auth'
-import Loading from 'components/UI/Loading'
+"use client";
+import React from 'react';
 
-function LogoutPage() {
-  const router = useRouter()
-  const { mutate } = useSWRConfig()
-  const handleLogout = async () => {
-    await logout()
-    pb.authStore.clear()
-    //Clear all SWR data
-    mutate(/* match all keys */ () => true, undefined, false)
-    router.push('/account/login')
-    router.refresh()
-  }
-  useEffect( () => {
-    const logout = async () => {
-      await handleLogout()
-    }
-    logout()
-  }, [])
-  
+export default function LogoutPage() {
   return (
-
-    <div className='flex flex-col gap-4 items-center justify-center text-sm text-zinc-600'>
-      <Loading/>
-      Logging out..
+    <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
+      <div className="text-center">
+        <h2 className="text-xl text-cyan-400">Saindo com Segurança...</h2>
+        <p className="text-zinc-500 mt-2">Até logo, Michel!</p>
+      </div>
     </div>
-  )
+  );
 }
-
-export default LogoutPage

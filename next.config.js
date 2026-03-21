@@ -4,7 +4,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Isso aqui evita erros de link quebrado na URL do GitHub
   trailingSlash: true, 
 }
 
