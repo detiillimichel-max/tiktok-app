@@ -1,16 +1,15 @@
-import React from 'react'
-import NotificationList from 'components/notifications/NotificationList'
-import { useUserProtected } from 'utils/useUser'
-function page() {
-  useUserProtected()
-  return (
-    <div className="p-4 border border-zinc-200 rounded-3xl">
-      <div className="p-4 border-b border-zinc-200 mb-4">
-        <h1 className=" text-xl font-semibold">Notifications</h1>
-      </div>
-      <NotificationList />
-    </div>
-  )
-}
+'use client';
+import React from 'react';
 
-export default page
+export default function NotificationsPage() {
+  return (
+    <div className="bg-black min-h-screen text-white p-10 flex flex-col items-center justify-center">
+      <h1 className="text-2xl font-bold text-cyan-400 mb-4 font-sans">Notificações</h1>
+      <div className="p-8 border border-cyan-900 rounded-3xl bg-cyan-950/20 backdrop-blur-sm">
+        <p className="text-zinc-400 text-center italic">
+          "O sistema de avisos do OIO ONE está sendo preparado por Michel."
+        </p>
+      </div>
+    </div>
+  );
+}
