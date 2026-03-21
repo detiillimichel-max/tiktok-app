@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    pageExtensions: ['mdx', 'md', 'jsx', 'js', 'tsx', 'ts'],
+  output: 'export',
+  images: {
+    unoptimized: true,
+  },
+  trailingSlash: true, 
 }
 
 module.exports = nextConfig
