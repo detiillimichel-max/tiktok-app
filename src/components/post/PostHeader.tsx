@@ -1,22 +1,34 @@
+'use client'
+
 import { Post, User } from 'types'
+import Avatar from 'components/UI/Avatar'
+import { MoreVertical } from 'lucide-react'
 
-import { Avatar } from 'components/UI'
-import Link from 'next/link'
-import React from 'react'
+type Props = {
+  user: User
+  post: Post
+}
 
-function PostHeader({ user, post }: { user: User, post: Post }) {
+function PostHeader({ user, post }: Props) {
   return (
-    <div className="py-4 z-10 drop-shadow-sm  text-black flex gap-2 items-center w-full bg-gradient-to-b from-custom-shadow">
-      <div className="flex gap-2 items-center flex-grow">
-        <Avatar user={user} size={60} />
-        <div className='flex flex-col justify-end'>
-          <p className='font-bold'>{user.name}</p>
-          <div>
-            <Link href={`/posts/${post.id}`}>
-              <p>{post.caption}</p>
-            </Link></div>
+    <div className="flex items-center justify-between w-full">
+      <div className="flex items-center gap-3">
+        {/* OIO ONE - Identidade Fluida */}
+        <Avatar user={user} size={42} className="ring-white/20" />
+        <div className="flex flex-col">
+          <span className="text-white text-sm font-semibold tracking-tight uppercase">
+            OIO ONE
+          </span>
+          <span className="text-zinc-400 text-[10px] uppercase tracking-[0.2em] font-medium">
+            Sensorial Layer
+          </span>
         </div>
       </div>
+
+      {/* Salto Quântico: Menu de Opções sutil */}
+      <button className="p-2 text-white/50 hover:text-white transition-colors active:scale-90">
+        <MoreVertical size={20} />
+      </button>
     </div>
   )
 }
