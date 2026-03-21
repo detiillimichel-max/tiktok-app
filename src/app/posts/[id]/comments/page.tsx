@@ -5,7 +5,6 @@ import { api_Url } from 'utils/consts'
 import DeleteButton from './DeleteButton'
 import { useUser } from 'utils/useUser'
 
-// Michel, aqui a gente define o tipo de PageProps do jeito que a Vercel exige agora
 type PageProps = {
   params: Promise<{
     id: string
@@ -14,7 +13,6 @@ type PageProps = {
 }
 
 async function Page({ params }: PageProps) {
-  // AQUI ESTÁ A MÁGICA: A gente espera o params carregar para pegar o ID
   const resolvedParams = await params
   const postId = resolvedParams.id
   
@@ -26,28 +24,38 @@ async function Page({ params }: PageProps) {
   ).then((res) => res.json())) as Post
 
   return (
-    <div className="flex flex-col gap-6 relative">
-      {/* OIO ONE - Identidade do Autor no Topo */}
-      <div className="flex gap-4 items-center">
-        <Avatar user={post.expand.profile} size={56} />
-        <div className="flex-grow">
-          <p>{post.expand.profile.name}</p>
-          <p className="text-sm text-zinc-400">
-            {post.expand.profile.username}
-          </p>
+    <div className="flex flex-col gap-8 min-h-screen bg-black text-white p-6">
+      {/* Header do Post - Design Limpo */}
+      <div className="flex gap-4 items-center bg-zinc-900/40 p-4 rounded-2xl backdrop-blur-md border border-zinc-800/50">
+        <Avatar user={post.expand.profile} size={50} className="rounded-full border border-zinc-700" />
+        <div className="flex flex-col flex-grow">
+          <span className="font-semibold text-zinc-100 tracking-tight">
+            {post.expand.profile.name}
+          </span>
+          <span className="text-xs text-zinc-500">
+            @{post.expand.profile.username}
+          </div>
         </div>
-        <Date date={post.created} />
-        {post.expand.profile.id == userId && <DeleteButton postId={post.id} />}
+        <div className="flex items-center gap-3">
+          <Date date={post.created} className="text-xs text-zinc-500" />
+          {post.expand.profile.id == userId && <DeleteButton postId={post.id} />}
+        </div>
       </div>
       
-      <p>{post.caption}</p>
+      {/* Conteúdo do Post */}
+      <div className="px-2">
+        <p className="text-zinc-200 leading-relaxed text-base">
+          {post.caption}
+        </p>
+      </div>
       
-      <div className="w-full bg-zinc-800 h-[1px]"></div>
+      {/* Divisor Elegante Profissional */}
+      <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-zinc-800 to-transparent opacity-50"></div>
       
-      {/* Aqui a função que você não quer perder: Comentários Infinitos */}
-      <InfiniteComments postId={postId} />
-      
-      <p className="text-[10px] text-zinc-600 text-center">OIO ONE - Autor: Michel</p>
+      {/* Área de Interação Social */}
+      <div className="flex flex-col gap-4">
+        <InfiniteComments postId={postId} />
+      </div>
     </div>
   )
 }
