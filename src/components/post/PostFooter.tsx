@@ -1,78 +1,47 @@
 'use client'
 
-import { CommentList, LikeList, Post } from 'types'
-
-import { HeartIcon } from '@radix-ui/react-icons'
-import Image from 'next/image'
+import { Post } from 'types'
 import LikeButton from './LikeButton'
-import Link from 'next/link'
-import Loading from 'components/UI/Loading'
-import { PostFooterSkeleton } from 'components/UI'
-import React from 'react'
-import { api_Url } from 'utils/consts'
-import { pb } from '../../utils/pocketbase'
-import useSWR from 'swr'
-import { useState } from 'react'
+import { MessageCircle, Share2 } from 'lucide-react' // Ícones modernos
 
-type IPostFooter = {
-  post: Post
+type Props = {
   id: string
+  post: Post
 }
 
-function PostFooter({ post, id }: IPostFooter) {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json())
-  const model = pb.authStore.model
-  const isLikedfilter = encodeURIComponent(
-    `post='${post.id}'&&profile='${model?.id}'`,
-  )
-
-  const likes = useSWR(
-    `${api_Url}collections/likes/records?filter=(post='${post.id}')`,
-    fetcher,
-  ) as { data: LikeList }
-
-  const comments = useSWR(
-    `${api_Url}collections/comments/records?filter=(post='${post.id}')`,
-    fetcher,
-  ) as { data: CommentList }
-
-  const isLiked = useSWR(
-    `${api_Url}collections/likes/records?filter=(${isLikedfilter})`,
-    fetcher,
-  ) as { data: LikeList }
-  if (!likes.data || !comments.data || !isLiked.data)
-    return (
-      <div className="absolute left-6 bottom-14 z-10 s:bottom-6">
-        <PostFooterSkeleton />
-      </div>
-    )
-
-  const liked = isLiked.data.totalItems > 0 ? true : false
+function PostFooter({ id, post }: Props) {
   return (
-    <div className="flex flex-col justify-end p-2 text-black bg-gradient-to-t from-custom-shadow">
-      <div className="flex flex-col gap-4 items-center">
-        <LikeButton
-          totalLikes={likes.data.totalItems}
-          liked={liked}
-          postId={post.id}
-          id={id}
-        />
-        <div className="flex gap-1 p-3 px-4 pr-5 rounded-full bg-zinc-200 bg-opacity-30 backdrop-blur-sm">
-          <button >
-            <Image src="/comments.svg" width={24} height={24} alt="comments icon" />
-          </button>
-        </div>
-        <div className="flex gap-1 p-3 px-4 pr-5 rounded-full bg-zinc-200 bg-opacity-30 backdrop-blur-sm">
-          <button >
-            <Image src="/fav.svg" width={24} height={24} alt="comments icon" />
-          </button>
-        </div>
-        <div className="flex gap-1 p-3 px-4 pr-5 rounded-full bg-zinc-200 bg-opacity-30 backdrop-blur-sm">
-          <button >
-            <Image src="/share.svg" width={24} height={24} alt="comments icon" />
-          </button>
+    <div className="flex flex-col gap-4 w-full">
+      {/* INFO DO POST: Flutuando sobre o vídeo */}
+      <div className="flex flex-col">
+        <span className="text-white font-bold text-lg tracking-tighter">
+          @{post.expand?.profile?.name || 'OIO User'}
+        </span>
+        <p className="text-zinc-200 text-sm line-clamp-2 mt-1 leading-relaxed">
+          {post.text}
+        </p>
+      </div>
+
+      {/* AÇÕES: Botões flutuantes à direita (Estilo Social Grande) */}
+      <div className="absolute right-4 bottom-24 flex flex-col items-center gap-6 z-30">
+        <div className="flex flex-col items-center gap-1 group">
+          <LikeButton post={post} id={id} />
+          <span className="text-[10px] text-white font-medium uppercase">Like</span>
         </div>
 
+        <div className="flex flex-col items-center gap-1 cursor-pointer active:scale-90 transition-transform">
+          <div className="p-3 bg-white/10 backdrop-blur-md rounded-full border border-white/10">
+            <MessageCircle size={24} className="text-white" />
+          </div>
+          <span className="text-[10px] text-white font-medium uppercase">Chat</span>
+        </div>
+
+        <div className="flex flex-col items-center gap-1 cursor-pointer active:scale-90 transition-transform">
+          <div className="p-3 bg-white/10 backdrop-blur-md rounded-full border border-white/10">
+            <Share2 size={24} className="text-white" />
+          </div>
+          <span className="text-[10px] text-white font-medium uppercase">Share</span>
+        </div>
       </div>
     </div>
   )
