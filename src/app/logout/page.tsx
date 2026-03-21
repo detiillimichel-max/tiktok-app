@@ -1,11 +1,3 @@
-import { LogoutPage } from "components/auth"
-
-async function page() {
-    return (
-        <>
-        <LogoutPage/>
-        </>
-    )
-    }
-
-export default page
+'use client';
+import React from 'react';
+export default function LogoutPage() { return <div className="bg-black min-h-screen text-white p-10">Encerrando sessão...</div> }
