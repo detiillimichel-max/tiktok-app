@@ -14,25 +14,25 @@ function PostCard({ post }: { post: Post }) {
   const videoUrl = `${api_Url}api/files/posts/${post.id}/${post.fileUrl}`
 
   return (
-    // OIO ONE - Camada de Profundidade: O Post ocupa a área sensorial total
     <div className="relative w-full h-full bg-black overflow-hidden group">
       
-      {/* 1. CAMADA BASE: O VÍDEO (100% da tela) */}
+      {/* 1. VÍDEO BASE (100% da tela) */}
       <div className="absolute inset-0 z-0">
         <Player videoUrl={videoUrl} />
       </div>
 
-      {/* 2. CAMADA DE INTERAÇÃO: Header Flutuante (Transparente) */}
+      {/* 2. HEADER FLUTUANTE */}
       <div className="absolute top-0 left-0 right-0 z-20 p-4 bg-gradient-to-b from-black/60 to-transparent">
+        {/* Michel, aqui estava o erro: troquei "ator" por "user" para o sistema entender */}
         <PostHeader user={post.expand.profile} post={post} />
       </div>
 
-      {/* 3. CAMADA DE IDENTIDADE: Footer Flutuante (Sobre o Vídeo) */}
+      {/* 3. FOOTER FLUTUANTE */}
       <div className="absolute bottom-0 left-0 right-0 z-20 p-6 bg-gradient-to-t from-black/80 via-black/20 to-transparent backdrop-blur-[2px]">
         <PostFooter id={model?.id || ''} post={post} />
       </div>
 
-      {/* Efeito de Profundidade nas bordas (Design de Elite) */}
+      {/* Efeito de Profundidade OIO ONE */}
       <div className="absolute inset-0 pointer-events-none border border-zinc-800/20 rounded-[40px] z-30"></div>
     </div>
   )
